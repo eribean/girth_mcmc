@@ -1,2 +1,2 @@
 # girth_mcmc
-Bayesian IRTY submodule for GIRTH
+Bayesian IRT submodule for GIRTH
