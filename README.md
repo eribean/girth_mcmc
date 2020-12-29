@@ -1,5 +1,5 @@
 # GIRTH MCMC
-Item Response Theory using Markov Chain Monte Carlo
+Item Response Theory using Markov Chain Monte Carlo / Variational Inference
 
 **Dependencies**
 
