@@ -1,5 +1,5 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/eribean/girth_mcmc/badge)](https://www.codefactor.io/repository/github/eribean/girth_mcmc)
-[![PyPI version](https://badge.fury.io/py/girth_mcmc.svg)](https://badge.fury.io/py/girth_mcmc)
+[![PyPI version](https://badge.fury.io/py/girth-mcmc.svg)](https://badge.fury.io/py/girth-mcmc)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # GIRTH MCMC
