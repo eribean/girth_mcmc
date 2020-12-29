@@ -1,3 +1,6 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/eribean/girth_mcmc/badge)](https://www.codefactor.io/repository/github/eribean/girth_mcmc)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # GIRTH MCMC
 Item Response Theory using Markov Chain Monte Carlo / Variational Inference
 
