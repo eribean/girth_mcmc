@@ -60,6 +60,46 @@ girth_model = GirthMCMC(model='GRM', model_args=(n_categories,),
 results = girth_model(syn_data)
 print(results)
 ```
+
+Don't like waiting? me either. Run Variational Inference for faster
+but less accurate estimation.
+
+```python
+import numpy as np
+from girth_mcmc import (create_synthetic_irt_polytomous, 
+                        GirthMCMC)
+
+n_categories = 3
+
+difficulty = np.random.randn(10, n_categories-1)
+difficulty = np.sort(difficulty, 1)        
+discrimination = 1.76 * np.sqrt(-2 * np.log(np.random.rand(10)))
+theta = np.random.randn(150)
+
+syn_data = create_synthetic_irt_polytomous(difficulty, discrimination, 
+                                            theta, model='grm')
+
+girth_model = GirthMCMC(model='GRM', model_args=(n_categories,),
+                        options={'variational_inference': True,
+                                 'variational_samples': 10000,
+                                 'n_samples': 10000})
+results_variational = girth_model(syn_data, progressbar=False)
+print(results_variational)
+```
+
+## Unittests
+The unittests are just smoke tests for now:
+
+**Without** coverage.py module
+```
+nosetests testing/
+```
+
+**With** coverage.py module
+```
+nosetests --with-coverage --cover-package=girth_mcmc testing/
+```
+
 ## Other Estimation Packages
 If you are looking for Marginal Maximum Likelihood estimation routines, 
 check out [GIRTH](https://eribean.github.io/girth/).

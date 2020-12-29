@@ -39,31 +39,55 @@ class GirthMCMC(object):
 
         self.trace = None
 
-    def __call__(self, dataset, **kwargs):
-        """Begins the MCMC sampling process.
-        
-        Args:
-            dataset: [n_items, n_participants] 2d array of measured responses
-            kwargs: any named arguments passed to the trace
-        
-        Returns:
-            results_dictionary: dictionary of mean a posterori item values
+    def build_model(self, dataset):
+        """Builds the model to run.
+
+            Args:
+                dataset: [n_items, n_participants] 2d array of measured responses
+            
+            Returns:
+                pymc_model: model ready to run
         """
-        # Run the sampling
         if self.model_args:
             local_model = self.pm_model(dataset, *self.model_args)
         else:
             local_model = self.pm_model(dataset)
 
-        n_tune = self.options['n_tune'] // self.options['n_processors']
-        n_samples = self.options['n_samples'] // self.options['n_processors']
+        return local_model        
+
+    def __call__(self, dataset, **kwargs):
+        """Begins the MCMC sampling process.
+        
+        Args:
+            dataset: [n_items, n_participants] 2d array of measured responses
+            kwargs: any named arguments passed to the trace, 
+                    for variational methods, use 'inf_kwargs' to pass
+                    arguments to fit function i.e. inf_kwargs={'jitter': 1}
+        
+        Returns:
+            results_dictionary: dictionary of mean a posterori item values
+        """
+        # Run the sampling
+        built_model = self.build_model(dataset)
 
         # Run the Model
-        with local_model:
-            trace = pm.sample(n_samples, tune=n_tune,
-                              chains=self.options['n_processors'], 
-                              cores=self.options['n_processors'],
-                              return_inferencedata=False, **kwargs)
+        if self.options['variational_inference']:
+            with built_model:
+                result = pm.fit(method=self.options['variational_model'],
+                                n=self.options['variational_samples'], **kwargs)
+            
+            trace = result.sample(self.options['n_samples'])
+
+
+        else: #MCMC Sampler
+            n_tune = self.options['n_tune'] // self.options['n_processors']
+            n_samples = self.options['n_samples'] // self.options['n_processors']
+
+            with built_model:
+                trace = pm.sample(n_samples, tune=n_tune,
+                                chains=self.options['n_processors'], 
+                                cores=self.options['n_processors'],
+                                return_inferencedata=False, **kwargs)
         
         # store the trace
         self.trace = trace

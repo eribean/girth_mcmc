@@ -27,8 +27,8 @@ def onepl_model(dataset):
 
         # Discrimination multilevel prior
         rayleigh_scale = pm.Lognormal("Rayleigh_Scale", mu=0, sigma=1/4, shape=1)
-        discrimination = Rayleigh(name='Discrimination', beta=rayleigh_scale, 
-                                  offset=0.25, shape=1)
+        discrimination = pm.Bound(Rayleigh, lower=0.25)(name='Discrimination', 
+                                  beta=rayleigh_scale, offset=0.25, shape=1)
 
         # Compute the probabilities
         kernel = discrimination * (ability[None, :] - difficulty[:, None])
