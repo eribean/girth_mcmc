@@ -22,6 +22,10 @@ packages can be installed through pip otherwise.
 # Usage
 Subject to change but for now:
 ```python
+import numpy as np
+from girth_mcmc import (create_synthetic_irt_dichotomous, 
+                        GirthMCMC)
+                        
 discrimination = 0.89 * np.sqrt(-2 * np.log(np.random.rand(10)))
 difficulty = np.random.randn(10)
 theta = np.random.randn(100)
@@ -37,6 +41,10 @@ print(results)
 
 for the graded response model, pass in the number of categories
 ```python
+import numpy as np
+from girth_mcmc import (create_synthetic_irt_polytomous, 
+                        GirthMCMC)
+
 n_categories = 3
 
 difficulty = np.random.randn(10, n_categories-1)
