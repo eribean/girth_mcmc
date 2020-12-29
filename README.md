@@ -2,6 +2,7 @@
 Item Response Theory using Markov Chain Monte Carlo
 
 **Dependencies**
+
 We recommend using [Anaconda](https://www.anaconda.com/products/individual). Individual
 packages can be installed through pip otherwise.
 
