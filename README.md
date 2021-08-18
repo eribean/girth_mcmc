@@ -13,7 +13,19 @@ packages can be installed through pip otherwise.
 * Python >= 3.7.6
 * Numpy
 * Scipy
+* Girth
 * PyMC3
+
+## Installation
+Via pip
+```
+pip install girth_mcmc --upgrade
+```
+
+From Source
+```
+pip install . -t $PYTHONPATH --upgrade
+```
 
 # Supports
 **Unidimensional**
@@ -92,18 +104,47 @@ print(results_variational)
 ```
 
 ## Unittests
-The unittests are just smoke tests for now:
 
-**Without** coverage.py module
+**pytest** with coverage.py module
 ```
-nosetests testing/
+pytest --cov=girth_mcmc --cov-report term
 ```
 
-**With** coverage.py module
+**nose** with coverage.py module
 ```
-nosetests --with-coverage --cover-package=girth_mcmc testing/
+nosetests --with-coverage --cover-package=girth_mcmc
 ```
+
+## Contact
+
+Ryan Sanchez  
+ryan.sanchez@gofactr.com
+
 
 ## Other Estimation Packages
 If you are looking for Marginal Maximum Likelihood estimation routines, 
 check out [GIRTH](https://eribean.github.io/girth/).
+
+## License
+
+MIT License
+
+Copyright (c) 2021 Ryan C. Sanchez
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

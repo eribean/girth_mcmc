@@ -2,8 +2,8 @@ import unittest
 
 import numpy as np
 
-from girth_mcmc import (create_synthetic_irt_polytomous, 
-                        GirthMCMC)
+from girth import create_synthetic_irt_polytomous
+from girth_mcmc import GirthMCMC
 
 
 class TestPolytomous(unittest.TestCase):
