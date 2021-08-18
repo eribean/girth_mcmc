@@ -39,8 +39,8 @@ pip install . -t $PYTHONPATH --upgrade
 Subject to change but for now:
 ```python
 import numpy as np
-from girth_mcmc import (create_synthetic_irt_dichotomous, 
-                        GirthMCMC)
+from girth import create_synthetic_irt_dichotomous
+from girth_mcmc import GirthMCMC
                         
 discrimination = 0.89 * np.sqrt(-2 * np.log(np.random.rand(10)))
 difficulty = np.random.randn(10)
@@ -58,8 +58,8 @@ print(results)
 for the graded response model, pass in the number of categories
 ```python
 import numpy as np
-from girth_mcmc import (create_synthetic_irt_polytomous, 
-                        GirthMCMC)
+from girth import create_synthetic_irt_polytomous
+from girth_mcmc import GirthMCMC
 
 n_categories = 3
 
@@ -77,13 +77,36 @@ results = girth_model(syn_data)
 print(results)
 ```
 
+Is some data missing? Tag it with a convenience function and run it like normal
+```python
+import numpy as np
+from girth import create_synthetic_irt_dichotomous
+from girth_mcmc import GirthMCMC
+from girth_mcmc.utils import tag_missing_data_mcmc
+                        
+discrimination = 0.89 * np.sqrt(-2 * np.log(np.random.rand(10)))
+difficulty = np.random.randn(10)
+theta = np.random.randn(100)
+
+syn_data = create_synthetic_irt_dichotomous(difficulty, discrimination, 
+                                            theta)
+mask = np.random.rand(*syn_data.shape) < .1
+syn_data[mask] = -9999
+syn_data_missing = tag_missing_data_mcmc(syn_data, [0, 1])
+
+girth_model = GirthMCMC(model='2PL', 
+                        options={'n_processors': 4})
+results = girth_model(syn_data_missing)
+print(results)
+```
+
 Don't like waiting? me either. Run Variational Inference for faster
 but less accurate estimation.
 
 ```python
 import numpy as np
-from girth_mcmc import (create_synthetic_irt_polytomous, 
-                        GirthMCMC)
+from girth import create_synthetic_irt_polytomous
+from girth_mcmc import GirthMCMC
 
 n_categories = 3
 
