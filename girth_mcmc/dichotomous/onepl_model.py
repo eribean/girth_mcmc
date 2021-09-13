@@ -3,6 +3,9 @@ import pymc3 as pm
 from girth_mcmc.utils import Rayleigh
 
 
+__all__ = ['onepl_model', 'onepl_parameters']
+
+
 def onepl_model(dataset):
     """Defines the mcmc model for one parameter logistic estimation.
     

@@ -4,6 +4,9 @@ from numpy import linspace, zeros, unique
 from girth_mcmc.utils import Rayleigh
 
 
+__all__ = ["graded_response_model", "graded_response_parameters"]
+
+
 def graded_response_model(dataset, n_categories):
     """Defines the mcmc model for the graded response model.
     

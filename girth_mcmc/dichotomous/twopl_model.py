@@ -3,6 +3,9 @@ import pymc3 as pm
 from girth_mcmc.utils import Rayleigh
 
 
+__all__ = ["twopl_model", "twopl_parameters"]
+
+
 def twopl_model(dataset):
     """Defines the mcmc model for two parameter logistic estimation.
     
