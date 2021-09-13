@@ -1,5 +1,7 @@
 import pymc3 as pm
 
+__all__ = ['rasch_model', 'rasch_parameters']
+
 
 def rasch_model(dataset):
     """Defines the mcmc model for Rasch estimation.

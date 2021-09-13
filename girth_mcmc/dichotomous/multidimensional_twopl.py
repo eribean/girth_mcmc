@@ -5,6 +5,9 @@ import theano
 from theano import tensor as tt
 
 
+__all__= ["multidimensional_twopl_model", "multidimensional_twopl_parameters"]
+
+
 def multidimensional_twopl_model(dataset, n_factors):
     """Defines the mcmc model for multidimensional 2PL logistic estimation.
     
@@ -21,14 +24,11 @@ def multidimensional_twopl_model(dataset, n_factors):
     n_items, n_people = dataset.shape
     observed = dataset.astype('int')
 
-    # These matrices help with the discrimination constraints
-    discrimination = tt.zeros((n_items, n_factors), dtype=theano.config.floatX)
-    
+    # These matrices help with the discrimination constraints  
     lower_indicies = np.tril_indices(n_items, k=-1, m=n_factors)
     diagonal_indices = np.diag_indices(n_factors)
     lower_length = lower_indicies[0].shape[0]
     
-
     twopl_pymc_model = pm.Model()
 
     with twopl_pymc_model:
@@ -41,6 +41,7 @@ def multidimensional_twopl_model(dataset, n_factors):
                             sigma=sigma_difficulty, shape=n_items)
         
         # The main diagonal must be non-negative
+        discrimination = tt.zeros((n_items, n_factors), dtype=theano.config.floatX)
         diagonal_discrimination = pm.Lognormal('Diagonal Discrimination', mu=0, 
                                                sigma=0.25, shape=n_factors)
         lower_discrimination = pm.Normal('Lower Discrimination', sigma=1, 

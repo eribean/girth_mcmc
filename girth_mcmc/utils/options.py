@@ -8,6 +8,9 @@ from multiprocessing import cpu_count
 DEFAULT_CPU = max(min(cpu_count() // 2, 2), 1)
 
 
+__all__ = ['default_mcmc_options', 'validate_mcmc_options']
+
+
 def default_mcmc_options():
     """ Dictionary of options used in Girth MCMC.
 

@@ -6,6 +6,9 @@ from pymc3.distributions.distribution import draw_values, generate_samples
 from pymc3.distributions.dist_math import bound
 
 
+__all__ = ['Rayleigh']
+
+
 class Rayleigh(pm.distributions.Weibull):
     """Register a rayleigh distribution in pymc."""
     

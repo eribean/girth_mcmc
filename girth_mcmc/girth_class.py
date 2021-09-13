@@ -6,6 +6,7 @@ from girth_mcmc.utils import validate_mcmc_options
 from girth_mcmc.dichotomous import (rasch_model, rasch_parameters,
                                     onepl_model, onepl_parameters,
                                     twopl_model, twopl_parameters,
+                                    multidimensional_twopl_model, multidimensional_twopl_parameters,
                                     threepl_model, threepl_parameters)
 from girth_mcmc.polytomous import  graded_response_model, graded_response_parameters
 
@@ -22,6 +23,10 @@ class GirthMCMC(object):
         * n_processors: (int) number of processors
         * n_tune: number of "burn-in" samples to run 
         * n_samples: number of estimation samples
+
+    Notes:
+        'GRM' requires setting the number of levels
+        '2PL_mirt' requires setting the number of factors
     """
 
     def __init__(self, model, model_args=None, options=None):
@@ -31,10 +36,12 @@ class GirthMCMC(object):
         self.model_args = model_args
         self.pm_model = {'rasch': rasch_model, '1pl': onepl_model,
                          '2pl': twopl_model, '3pl': threepl_model,
+                         '2pl_mirt': multidimensional_twopl_model,
                          'grm': graded_response_model}[model.lower()]
 
         self.return_method = {'rasch': rasch_parameters, '1pl': onepl_parameters,
                               '2pl': twopl_parameters, '3pl': threepl_parameters,
+                              '2pl_mirt': multidimensional_twopl_parameters,
                               'grm': graded_response_parameters}[model.lower()]
 
         self.trace = None
