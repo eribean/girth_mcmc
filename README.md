@@ -35,6 +35,9 @@ pip install . -t $PYTHONPATH --upgrade
 * 3PL Model
 * Graded Response Model
 
+**Multi-dimensional**
+* 2PL Model
+
 # Usage
 Subject to change but for now:
 ```python
