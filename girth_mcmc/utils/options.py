@@ -37,7 +37,8 @@ def default_mcmc_options():
             "n_tune": 2500, "n_samples": 10000,
             "variational_inference": False, 
             "variational_model": 'advi',
-            "variational_samples": 15000}
+            "variational_samples": 15000,
+            "initial_guess": True}
 
 
 def validate_mcmc_options(options_dict=None):
@@ -61,7 +62,9 @@ def validate_mcmc_options(options_dict=None):
                 'variational_model':
                     lambda x: x in ['advi', 'svgd', 'fullrank_advi'],
                 'variational_samples':
-                    lambda x: isinstance(x, int) and x > 100
+                    lambda x: isinstance(x, int) and x > 100,
+                "initial_guess":
+                    lambda x: isinstance(x, bool)
                 }
     
     # A complete options dictionary
