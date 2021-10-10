@@ -101,10 +101,11 @@ class GirthMCMC(object):
         if self.options['variational_inference']:
             with built_model:
                 result = pm.fit(method=self.options['variational_model'],
+                                start=initial_guess,
                                 n=self.options['variational_samples'], **kwargs)
             
-            trace = result.sample(self.options['n_samples'],
-                                  start=self.initial_guess)
+            trace = result.sample(self.options['n_samples'])
+
 
 
         else: #MCMC Sampler

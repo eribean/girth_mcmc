@@ -1,6 +1,6 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/eribean/girth_mcmc/badge)](https://www.codefactor.io/repository/github/eribean/girth_mcmc)
 [![PyPI version](https://badge.fury.io/py/girth-mcmc.svg)](https://badge.fury.io/py/girth-mcmc)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 # GIRTH MCMC
 Item Response Theory using Markov Chain Monte Carlo / Variational Inference
@@ -17,17 +17,21 @@ packages can be installed through pip otherwise.
 * PyMC3
 
 ## Installation
+
 Via pip
-```
+
+```sh
 pip install girth_mcmc --upgrade
 ```
 
 From Source
-```
+
+```sh
 pip install . -t $PYTHONPATH --upgrade
 ```
 
 # Supports
+
 **Unidimensional**
 * Rasch Model 
 * 1PL Model
@@ -39,7 +43,9 @@ pip install . -t $PYTHONPATH --upgrade
 * 2PL Model
 
 # Usage
+
 Subject to change but for now:
+
 ```python
 import numpy as np
 from girth import create_synthetic_irt_dichotomous
@@ -59,6 +65,7 @@ print(results)
 ```
 
 for the graded response model, pass in the number of categories
+
 ```python
 import numpy as np
 from girth import create_synthetic_irt_polytomous
@@ -81,6 +88,7 @@ print(results)
 ```
 
 Is some data missing? Tag it with a convenience function and run it like normal
+
 ```python
 import numpy as np
 from girth import create_synthetic_irt_dichotomous
@@ -132,13 +140,9 @@ print(results_variational)
 ## Unittests
 
 **pytest** with coverage.py module
-```
-pytest --cov=girth_mcmc --cov-report term
-```
 
-**nose** with coverage.py module
-```
-nosetests --with-coverage --cover-package=girth_mcmc
+```sh
+pytest --cov=girth_mcmc --cov-report term
 ```
 
 ## Contact
@@ -146,10 +150,11 @@ nosetests --with-coverage --cover-package=girth_mcmc
 Ryan Sanchez  
 ryan.sanchez@gofactr.com
 
-
 ## Other Estimation Packages
-If you are looking for Marginal Maximum Likelihood estimation routines, 
-check out [GIRTH](https://eribean.github.io/girth/).
+
+If you are looking for Marginal Maximum Likelihood estimation routines,
+check out [GIRTH](https://eribean.github.io/girth/), a graphical interface
+is also at [GoFactr](https://gofactr.com)
 
 ## License
 
