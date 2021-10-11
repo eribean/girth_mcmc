@@ -55,10 +55,12 @@ class GirthMCMC(object):
 
         self.pm_model = model_parameters[0]
         self.return_method = model_parameters[1]
-        self.initial_guess = lambda x, *args: None
 
-        if self.options['initial_guess']:
+        if self.options['initial_guess'] and model_parameters[2] is not None:
             self.initial_guess = model_parameters[2]
+
+        else:
+            self.initial_guess = lambda x, *args: None
 
         self.trace = None
 

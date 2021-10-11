@@ -76,7 +76,7 @@ class TestDichotomous(unittest.TestCase):
 
         syn_data = create_synthetic_mirt_dichotomous(difficulty, discrimination, thetas)
         
-        girth_model = GirthMCMC(model='2PL_MIRT', model_args=(3,),
+        girth_model = GirthMCMC(model='2PL_MD', model_args=(3,),
                                 options={'n_tune': 500, 'n_samples': 1000})
         result = girth_model(syn_data, progressbar=False)
 
@@ -159,7 +159,7 @@ class TestDichotomousVariational(unittest.TestCase):
 
         syn_data = create_synthetic_mirt_dichotomous(difficulty, discrimination, thetas)
         
-        girth_model = GirthMCMC(model='2PL_MIRT', model_args=(1,),
+        girth_model = GirthMCMC(model='2PL_MD', model_args=(1,),
                                 options={'variational_inference': True,
                                          'variational_samples': 1000,
                                          'n_samples': 1000})
@@ -167,7 +167,7 @@ class TestDichotomousVariational(unittest.TestCase):
         with self.assertRaises(AssertionError):
             girth_model(syn_data, progressbar=False)
 
-        girth_model = GirthMCMC(model='2PL_MIRT', model_args=(3,),
+        girth_model = GirthMCMC(model='2PL_MD', model_args=(3,),
                                 options={'variational_inference': True,
                                          'variational_samples': 1000,
                                          'n_samples': 1000})
