@@ -54,7 +54,8 @@ class TestMCMCOptions(unittest.TestCase):
             with self.assertRaises(AssertionError):
                 validate_mcmc_options({key: value})
 
-
+        with self.assertRaises(AssertionError):
+            validate_mcmc_options([1, 2, 3])
 class TestMissingValue(unittest.TestCase):
     """Test Fixture for missing data."""
 
