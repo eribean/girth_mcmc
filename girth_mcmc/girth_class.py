@@ -7,7 +7,8 @@ from girth_mcmc.dichotomous import (rasch_model, rasch_parameters,
                                     onepl_model, onepl_parameters,
                                     twopl_model, twopl_parameters,
                                     multidimensional_twopl_model, multidimensional_twopl_parameters,
-                                    threepl_model, threepl_parameters)
+                                    multidimensional_twopl_initial_guess, threepl_model,
+                                    threepl_parameters)
 from girth_mcmc.polytomous import  graded_response_model, graded_response_parameters
 
 
@@ -15,7 +16,7 @@ class GirthMCMC(object):
     """GIRTH MCMC class to run estimation models using PyMC3.
 
     Parameters:
-        model: (string) ['Rasch', '1PL', '2PL', '3PL', 'GRM'] which model to run
+        model: (string) ['Rasch', '1PL', '2PL', '3PL', 'GRM', '2PL_md'] which model to run
         model_args: (tuple) tuple of arguments to pass to model
         options: (dict) mcmc options dictionary
     
@@ -23,10 +24,12 @@ class GirthMCMC(object):
         * n_processors: (int) number of processors
         * n_tune: number of "burn-in" samples to run 
         * n_samples: number of estimation samples
+        * initial_guess: (boolean) use initial estimate in multidimensional
+                         methods
 
     Notes:
         'GRM' requires setting the number of levels
-        '2PL_mirt' requires setting the number of factors
+        '2PL_md' requires setting the number of factors
     """
 
     def __init__(self, model, model_args=None, options=None):
@@ -34,15 +37,30 @@ class GirthMCMC(object):
         self.options = validate_mcmc_options(options)
         self.model = model.lower()
         self.model_args = model_args
-        self.pm_model = {'rasch': rasch_model, '1pl': onepl_model,
-                         '2pl': twopl_model, '3pl': threepl_model,
-                         '2pl_mirt': multidimensional_twopl_model,
-                         'grm': graded_response_model}[model.lower()]
 
-        self.return_method = {'rasch': rasch_parameters, '1pl': onepl_parameters,
-                              '2pl': twopl_parameters, '3pl': threepl_parameters,
-                              '2pl_mirt': multidimensional_twopl_parameters,
-                              'grm': graded_response_parameters}[model.lower()]
+        # Trace Model, Parameters Extraction, Initial guess
+        model_parameters = {
+            # Unidimensional Models
+            'rasch': (rasch_model, rasch_parameters, None),
+            '1pl': (onepl_model, onepl_parameters, None),
+            '2pl': (twopl_model, twopl_parameters, None),
+            '3pl': (threepl_model, threepl_parameters, None),
+            'grm': (graded_response_model, graded_response_parameters, None),
+
+            # Multidimensional Models
+            '2pl_md': (multidimensional_twopl_model, 
+                       multidimensional_twopl_parameters,
+                       multidimensional_twopl_initial_guess)
+        }[model.lower()]
+
+        self.pm_model = model_parameters[0]
+        self.return_method = model_parameters[1]
+
+        if self.options['initial_guess'] and model_parameters[2] is not None:
+            self.initial_guess = model_parameters[2]
+
+        else:
+            self.initial_guess = lambda x, *args: None
 
         self.trace = None
 
@@ -54,13 +72,17 @@ class GirthMCMC(object):
             
             Returns:
                 pymc_model: model ready to run
+                initial_guess: dictionary of start values for sampler
         """
         if self.model_args:
             local_model = self.pm_model(dataset, *self.model_args)
+            initial_guess = self.initial_guess(dataset, *self.model_args)
+
         else:
             local_model = self.pm_model(dataset)
+            initial_guess = self.initial_guess(dataset)
 
-        return local_model        
+        return local_model, initial_guess
 
     def __call__(self, dataset, **kwargs):
         """Begins the MCMC sampling process.
@@ -75,15 +97,17 @@ class GirthMCMC(object):
             results_dictionary: dictionary of mean a posterori item values
         """
         # Run the sampling
-        built_model = self.build_model(dataset)
+        built_model, initial_guess = self.build_model(dataset)
 
         # Run the Model
         if self.options['variational_inference']:
             with built_model:
                 result = pm.fit(method=self.options['variational_model'],
+                                start=initial_guess,
                                 n=self.options['variational_samples'], **kwargs)
             
             trace = result.sample(self.options['n_samples'])
+
 
 
         else: #MCMC Sampler
@@ -94,6 +118,7 @@ class GirthMCMC(object):
                 trace = pm.sample(n_samples, tune=n_tune,
                                 chains=self.options['n_processors'], 
                                 cores=self.options['n_processors'],
+                                start=initial_guess,
                                 return_inferencedata=False, **kwargs)
         
         # store the trace
