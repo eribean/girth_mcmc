@@ -50,6 +50,9 @@ class GirthMCMC(object):
             # Multidimensional Models
             '2pl_md': (multidimensional_twopl_model, 
                        multidimensional_twopl_parameters,
+                       multidimensional_twopl_initial_guess),
+            'grm_md': (multidimensional_graded_model, 
+                       multidimensional_graded_parameters,
                        multidimensional_twopl_initial_guess)
         }[model.lower()]
 
