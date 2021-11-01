@@ -5,24 +5,12 @@ import theano
 from theano import tensor as tt
 
 from girth.multidimensional import initial_guess_md
+from girth_mcmc.utils import get_discrimination_indices
 
 
 __all__= ["multidimensional_twopl_model", "multidimensional_twopl_parameters",
           "multidimensional_twopl_initial_guess"]
 
-
-def _get_discrimination_indices(n_items, n_factors):
-    """Local function to get parameters for discrimination estimation."""
-
-    lower_indices = np.tril_indices(n_items, k=-1, m=n_factors)
-    diagonal_indices = np.diag_indices(n_factors)
-    lower_length = lower_indices[0].shape[0]
-
-    # Set constraints to be the final items
-    lower_indices = (n_items - 1 - lower_indices[0], lower_indices[1])
-    diagonal_indices = (n_items - 1 - diagonal_indices[0], diagonal_indices[1])
-
-    return diagonal_indices, lower_indices
 
 def multidimensional_twopl_model(dataset, n_factors):
     """Defines the mcmc model for multidimensional 2PL logistic estimation.
@@ -40,7 +28,7 @@ def multidimensional_twopl_model(dataset, n_factors):
     n_items, n_people = dataset.shape
     observed = dataset.astype('int')
 
-    diagonal_indices, lower_indices = _get_discrimination_indices(n_items, n_factors)
+    diagonal_indices, lower_indices = get_discrimination_indices(n_items, n_factors)
     lower_length = lower_indices[0].shape[0]
 
     twopl_pymc_model = pm.Model()
@@ -93,7 +81,7 @@ def multidimensional_twopl_parameters(trace):
     diagonal_entries = trace['Diagonal Discrimination'].mean(0)
     n_factors = diagonal_entries.shape[0]
     
-    diagonal_indices, lower_indices = _get_discrimination_indices(n_items, n_factors)
+    diagonal_indices, lower_indices = get_discrimination_indices(n_items, n_factors)
     
     discrimination = np.zeros((n_items, n_factors))
     discrimination[lower_indices] = trace['Lower Discrimination'].mean(0)
@@ -119,7 +107,7 @@ def multidimensional_twopl_initial_guess(dataset, n_factors):
     estimated_discrimination = initial_guess_md(dataset, n_factors)
 
     # Reformat into parameters for estimation
-    diagonal_indices, lower_indices = _get_discrimination_indices(n_items, n_factors)
+    diagonal_indices, lower_indices = get_discrimination_indices(n_items, n_factors)
 
     return {'Diagonal Discrimination': estimated_discrimination[diagonal_indices],
             'Lower Discrimination': estimated_discrimination[lower_indices]}

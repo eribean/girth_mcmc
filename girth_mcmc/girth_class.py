@@ -9,7 +9,9 @@ from girth_mcmc.dichotomous import (rasch_model, rasch_parameters,
                                     multidimensional_twopl_model, multidimensional_twopl_parameters,
                                     multidimensional_twopl_initial_guess, threepl_model,
                                     threepl_parameters)
-from girth_mcmc.polytomous import  graded_response_model, graded_response_parameters
+from girth_mcmc.polytomous import (graded_response_model, graded_response_parameters,
+                                   multidimensional_graded_model,
+                                   multidimensional_graded_parameters)
 
 
 class GirthMCMC(object):
@@ -53,7 +55,7 @@ class GirthMCMC(object):
                        multidimensional_twopl_initial_guess),
             'grm_md': (multidimensional_graded_model, 
                        multidimensional_graded_parameters,
-                       multidimensional_twopl_initial_guess)
+                       lambda x, *y: multidimensional_twopl_initial_guess(x, y[1]))
         }[model.lower()]
 
         self.pm_model = model_parameters[0]
@@ -110,8 +112,6 @@ class GirthMCMC(object):
                                 n=self.options['variational_samples'], **kwargs)
             
             trace = result.sample(self.options['n_samples'])
-
-
 
         else: #MCMC Sampler
             n_tune = self.options['n_tune'] // self.options['n_processors']

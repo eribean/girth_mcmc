@@ -1,13 +1,11 @@
 import pymc3 as pm
 from numpy import linspace, zeros, unique
 
-from girth_mcmc.utils import Rayleigh
-
+import theano
 from theano import tensor as tt
 
 from girth.multidimensional import initial_guess_md
-
-from girth_mcmc.polytomous import multidimensional_twopl as m2pl
+from girth_mcmc.utils import get_discrimination_indices
 
 
 __all__= ["multidimensional_graded_model", "multidimensional_graded_parameters"]
@@ -38,7 +36,7 @@ def multidimensional_graded_model(dataset, n_categories, n_factors):
     # Run through 0, K - 1
     observed = dataset - dataset.min()
 
-    diagonal_indices, lower_indices = m2pl._get_discrimination_indices(n_items, n_factors)
+    diagonal_indices, lower_indices = get_discrimination_indices(n_items, n_factors)
     lower_length = lower_indices[0].shape[0]
 
     graded_mcmc_model = pm.Model()
@@ -82,21 +80,24 @@ def multidimensional_graded_parameters(trace):
     Return:
         return_dictionary: dictionary of found parameters
     """
-    n_items, n_factors = discrimination.shape
+    n_factors = trace['Diagonal Discrimination'].shape[1]
+    n_constraints = n_factors * (n_factors + 1) / 2 
+
+    n_items = int((trace['Lower Discrimination'].shape[1] + n_constraints) / n_factors)
     n_levels = max(map(lambda ndx: trace[f'Thresholds{ndx}'].shape[1], 
                        range(n_items)))
 
-    diagonal_indices, lower_indices = m2pl._get_discrimination_indices(n_items, n_factors)
+    diagonal_indices, lower_indices = get_discrimination_indices(n_items, n_factors)
 
+    discrimination = zeros((n_items, n_factors))
     discrimination[lower_indices] = trace['Lower Discrimination'].mean(0)
     discrimination[diagonal_indices] = trace['Diagonal Discrimination'].mean(0)
-    discrimination = np.zeros((n_items, n_factors))
 
     thresholds = zeros((n_items, n_levels))    
     for ndx in range(n_items):
         thresholds[ndx] = trace[f'Thresholds{ndx}'].mean(0)
     
     return {'Discrimination': discrimination,
-            'Difficulty': thresholds, 
+            'Difficulty': thresholds * -1, 
             'Ability': trace['Ability'].mean(0).T,
             'Difficulty Sigma': trace['Difficulty_SD'].mean(0)} 
