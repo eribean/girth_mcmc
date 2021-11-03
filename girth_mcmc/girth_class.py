@@ -18,7 +18,8 @@ class GirthMCMC(object):
     """GIRTH MCMC class to run estimation models using PyMC3.
 
     Parameters:
-        model: (string) ['Rasch', '1PL', '2PL', '3PL', 'GRM', '2PL_md'] which model to run
+        model: (string) ['Rasch', '1PL', '2PL', '3PL', 'GRM', '2PL_md', 'GRM_md'] 
+            which model to run
         model_args: (tuple) tuple of arguments to pass to model
         options: (dict) mcmc options dictionary
     
