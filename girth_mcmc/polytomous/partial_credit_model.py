@@ -1,7 +1,7 @@
 import pymc3 as pm
 from numpy import linspace, zeros, unique
 
-from girth_mcmc.distributions import PartialCredit
+from girth_mcmc.distributions import PartialCredit, Rayleigh
 
 
 __all__ = ["partial_credit_model"]

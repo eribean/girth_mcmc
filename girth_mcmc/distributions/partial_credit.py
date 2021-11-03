@@ -1,6 +1,6 @@
-import theano.tensor as tt
 import numpy as np
-from theano.tensor.random.basic import categorical
+import theano.tensor as tt
+
 from theano.tensor.nnet import softmax
 from theano.tensor.extra_ops import cumsum
 from pymc3.theanof import floatX
