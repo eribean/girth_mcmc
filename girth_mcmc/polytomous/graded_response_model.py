@@ -1,7 +1,7 @@
 import pymc3 as pm
 from numpy import linspace, zeros, unique
 
-from girth_mcmc.utils import Rayleigh
+from girth_mcmc.distributions import Rayleigh
 
 
 __all__ = ["graded_response_model", "graded_response_parameters"]

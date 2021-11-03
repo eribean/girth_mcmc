@@ -10,7 +10,7 @@ if __name__ == '__main__':
     setup(
         name="girth_mcmc", 
         packages=['girth_mcmc', 'girth_mcmc.dichotomous', 'girth_mcmc.polytomous', 
-                  'girth_mcmc.utils'],
+                  'girth_mcmc.utils', 'girth_mcmc.distributions'],
         package_dir={'girth_mcmc': 'girth_mcmc'},
         version="0.5.0",
         license="MIT",
