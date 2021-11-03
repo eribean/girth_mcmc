@@ -12,7 +12,7 @@ if __name__ == '__main__':
         packages=['girth_mcmc', 'girth_mcmc.dichotomous', 'girth_mcmc.polytomous', 
                   'girth_mcmc.utils'],
         package_dir={'girth_mcmc': 'girth_mcmc'},
-        version="0.4.1",
+        version="0.5.0",
         license="MIT",
         description="Bayesian Item Response Theory Estimation.",
         long_description=long_description.replace('<ins>','').replace('</ins>',''),
@@ -27,7 +27,6 @@ if __name__ == '__main__':
             'Intended Audience :: Science/Research',
             'Topic :: Scientific/Engineering', 
             'License :: OSI Approved :: MIT License',
-            'Programming Language :: Python :: 3.7',
             'Programming Language :: Python :: 3.8',
             'Programming Language :: Python :: 3.9'
         ]

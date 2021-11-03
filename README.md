@@ -1,6 +1,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/eribean/girth_mcmc/badge)](https://www.codefactor.io/repository/github/eribean/girth_mcmc)
 [![PyPI version](https://badge.fury.io/py/girth-mcmc.svg)](https://badge.fury.io/py/girth-mcmc)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/girth_mcmc?style=flat-square&color=darkgreen)
 
 # GIRTH MCMC
 Item Response Theory using Markov Chain Monte Carlo / Variational Inference
@@ -10,7 +11,7 @@ Item Response Theory using Markov Chain Monte Carlo / Variational Inference
 We recommend using [Anaconda](https://www.anaconda.com/products/individual). Individual
 packages can be installed through pip otherwise.
 
-* Python >= 3.7.6
+* Python &ge; 3.8
 * Numpy
 * Scipy
 * Girth
@@ -33,14 +34,17 @@ pip install . -t $PYTHONPATH --upgrade
 # Supports
 
 **Unidimensional**
-* Rasch Model 
+
+* Rasch Model
 * 1PL Model
 * 2PL Model
 * 3PL Model
 * Graded Response Model
 
 **Multi-dimensional**
+
 * 2PL Model
+* Graded Response Model
 
 # Usage
 

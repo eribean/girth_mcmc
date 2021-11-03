@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 
 from girth_mcmc.utils import validate_mcmc_options, default_mcmc_options
-from girth_mcmc.utils import tag_missing_data_mcmc
+from girth_mcmc.utils import tag_missing_data_mcmc, get_discrimination_indices
 
 
 class TestMCMCOptions(unittest.TestCase):
@@ -56,6 +56,8 @@ class TestMCMCOptions(unittest.TestCase):
 
         with self.assertRaises(AssertionError):
             validate_mcmc_options([1, 2, 3])
+
+
 class TestMissingValue(unittest.TestCase):
     """Test Fixture for missing data."""
 
@@ -69,6 +71,41 @@ class TestMissingValue(unittest.TestCase):
         tagged_data = tag_missing_data_mcmc(random_data, [2, 3])
         
         np.testing.assert_equal(mask_bad, tagged_data.mask)
+
+
+class TestDiscriminationIndices(unittest.TestCase):
+    """Testing the discrimination indices."""
+
+    def test_discrimination_indices(self):
+        """Testing creating the discrimination indices."""
+
+        n_items = [10, 20, 30]
+        n_factors = [2, 3, 4, 5]
+
+        for item in n_items:
+            for factor in n_factors:
+                diagonal_indices, lower_indices = get_discrimination_indices(item, 
+                                                                             factor)
+                lower_size = item * factor - factor * (factor + 1) / 2
+
+                self.assertEqual(diagonal_indices[0].size, factor)
+                self.assertEqual(diagonal_indices[1].size, factor)
+            
+                self.assertEqual(lower_indices[0].size, lower_size)
+                self.assertEqual(lower_indices[1].size, lower_size)
+
+                # Using lower, the rows are flipped, flip them back
+                flipped = item - diagonal_indices[0] - 1
+                np.testing.assert_equal(flipped, diagonal_indices[1])
+
+                test = np.zeros((item, factor))
+                test[lower_indices] = 1
+
+                self.assertEqual(test.sum(), lower_size)
+
+                for ndx1 in range(factor):
+                    for ndx2 in range(ndx1, factor):
+                        self.assertEqual(test[item - ndx1 -1, ndx2], 0)
 
 
 if __name__ == "__main__":
