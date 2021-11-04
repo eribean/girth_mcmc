@@ -40,11 +40,13 @@ pip install . -t $PYTHONPATH --upgrade
 * 2PL Model
 * 3PL Model
 * Graded Response Model
+* Partial Credit Model
 
 **Multi-dimensional**
 
 * 2PL Model
 * Graded Response Model
+* Partial Credit Model
 
 # Usage
 
