@@ -1,6 +1,6 @@
 import pymc3 as pm
 
-from girth_mcmc.utils import Rayleigh
+from girth_mcmc.distributions import Rayleigh
 
 
 __all__ = ["twopl_model", "twopl_parameters"]

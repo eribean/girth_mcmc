@@ -2,6 +2,7 @@ import numpy as np
 
 import pymc3 as pm
 import theano.tensor as tt
+
 from pymc3.distributions.distribution import draw_values, generate_samples
 from pymc3.distributions.dist_math import bound
 
