@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from girth import create_synthetic_irt_dichotomous, create_synthetic_mirt_dichotomous
+from girth.synthetic import (create_synthetic_irt_dichotomous)
 from girth_mcmc import GirthMCMC
 
 
@@ -74,7 +74,7 @@ class TestDichotomous(unittest.TestCase):
         difficulty = np.linspace(-1.5, 1, 10)
         thetas = rng.standard_normal((3, 1000))
 
-        syn_data = create_synthetic_mirt_dichotomous(difficulty, discrimination, thetas)
+        syn_data = create_synthetic_irt_dichotomous(difficulty, discrimination, thetas)
         
         girth_model = GirthMCMC(model='2PL_MD', model_args=(3,),
                                 options={'n_tune': 500, 'n_samples': 1000})
@@ -157,7 +157,7 @@ class TestDichotomousVariational(unittest.TestCase):
         difficulty = np.linspace(-1.5, 1, 10)
         thetas = rng.standard_normal((3, 1000))
 
-        syn_data = create_synthetic_mirt_dichotomous(difficulty, discrimination, thetas)
+        syn_data = create_synthetic_irt_dichotomous(difficulty, discrimination, thetas)
         
         girth_model = GirthMCMC(model='2PL_MD', model_args=(1,),
                                 options={'variational_inference': True,

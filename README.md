@@ -54,7 +54,7 @@ Subject to change but for now:
 
 ```python
 import numpy as np
-from girth import create_synthetic_irt_dichotomous
+from girth.synthetic import create_synthetic_irt_dichotomous
 from girth_mcmc import GirthMCMC
                         
 discrimination = 0.89 * np.sqrt(-2 * np.log(np.random.rand(10)))
@@ -74,7 +74,7 @@ for the graded response model, pass in the number of categories
 
 ```python
 import numpy as np
-from girth import create_synthetic_irt_polytomous
+from girth.synthetic import create_synthetic_irt_polytomous
 from girth_mcmc import GirthMCMC
 
 n_categories = 3
@@ -97,7 +97,7 @@ Is some data missing? Tag it with a convenience function and run it like normal
 
 ```python
 import numpy as np
-from girth import create_synthetic_irt_dichotomous
+from girth.synthetic import create_synthetic_irt_dichotomous
 from girth_mcmc import GirthMCMC
 from girth_mcmc.utils import tag_missing_data_mcmc
                         
@@ -122,7 +122,7 @@ but less accurate estimation.
 
 ```python
 import numpy as np
-from girth import create_synthetic_irt_polytomous
+from girth.synthetic import create_synthetic_irt_polytomous
 from girth_mcmc import GirthMCMC
 
 n_categories = 3

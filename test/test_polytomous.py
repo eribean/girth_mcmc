@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from girth import create_synthetic_irt_polytomous
+from girth.synthetic import create_synthetic_irt_polytomous
 from girth_mcmc import GirthMCMC
 
 
