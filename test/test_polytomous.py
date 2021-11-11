@@ -133,7 +133,7 @@ class TestPolytomousVariational(unittest.TestCase):
 
     def test_multidimensional_grm(self):
         """Testing Multidimensional Variational GRM."""
-        rng = np.random.default_rng(8484959050677840349349)
+        rng = np.random.default_rng(41651654413554315613453234)
 
         n_categories = 3
         n_factors = 2
